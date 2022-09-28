@@ -1,4 +1,4 @@
-# SAP_landscape_managment
+# SAP Landscape Management с исполизованием Ansible
 
 Автоматизация подготовки операционной системы (RHEL 7/8) под установку SAP HANA, SAP NetWeaver AS ABAP / AS JAVA на базе скриптов Ansible:
             
