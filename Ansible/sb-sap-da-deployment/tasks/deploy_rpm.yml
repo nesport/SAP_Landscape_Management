@@ -1,0 +1,21 @@
+---
+
+- name: Copy RPM based SAPDIAGAGENT to the target host
+  copy:
+    src: "{{ sap_diagagent_rpm_local_path }}/{{ sap_diagagent_rpm_file_name }}"
+    dest: "{{ sap_diagagent_agent_tmp_directory }}/{{ sap_diagagent_rpm_file_name }}"
+  when: sap_diagagent_rpm_local_path is defined
+
+- name: Ensure RPM file is installed
+  yum:
+    name: "{{ sap_diagagent_agent_tmp_directory }}/{{ sap_diagagent_rpm_file_name }}"
+    state: present
+    disable_gpg_check: yes
+  when: sap_diagagent_rpm_local_path is defined
+
+- name: Ensure RPM file is installed
+  yum:
+    name: "{{ sap_diagagent_rpm_remote_path }}/{{ sap_diagagent_rpm_file_name }}"
+    state: present
+    disable_gpg_check: yes
+  when: sap_diagagent_rpm_remote_path is defined

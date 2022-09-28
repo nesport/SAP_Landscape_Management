@@ -1,0 +1,18 @@
+---
+# Global Default variables
+# Adapt to your default settings
+
+# Installation type: RPM, SAR or OTHER -- Defaulting to RPM
+sap_diagagent_installation_type: "rpm"
+
+# Temporary directory for SAPdiagagent files
+sap_diagagent_agent_tmp_directory: "/tmp/diagagent"
+
+# Remove the temporary directory after the installation has been done
+sap_diagagent_clean_tmp_directory: false
+
+# This role must be run as ROOT user
+ansible_become: true
+
+# SSL Variables
+sap_diagagent_config_ssl: False

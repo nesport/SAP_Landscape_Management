@@ -1,0 +1,28 @@
+---
+
+- name: Copy SAR based SAPDIAGAGENT to the target host
+  copy:
+    src: "{{ sap_diagagent_sar_local_path }}/{{ sap_diagagent_sar_file_name }}"
+    dest: "{{ sap_diagagent_agent_tmp_directory }}/{{ sap_diagagent_sar_file_name }}"
+
+- name: Copy SAPCAR tool to the target host
+  copy:
+    src: "{{ sap_diagagent_sapcar_local_path }}/{{ sap_diagagent_sapcar_file_name }}"
+    dest: "{{ sap_diagagent_agent_tmp_directory }}/{{ sap_diagagent_sapcar_file_name }}"
+    mode: '0755'
+
+- name: Extract the SAPDIAGAGENT archive using SAPCAR
+  command: >-
+    {{ sap_diagagent_agent_tmp_directory }}/{{ sap_diagagent_sapcar_file_name }} \
+    -xvf {{ sap_diagagent_agent_tmp_directory }}/{{ sap_diagagent_sar_file_name }} -manifest SIGNATURE.SMF
+  register: extractagent
+  args:
+    chdir: "{{ sap_diagagent_agent_tmp_directory }}"
+  changed_when: "'SAPCAR: processing archive' in extractagent.stdout"
+
+- name: Install SAPDIAGAGENT
+  command: "{{ sap_diagagent_agent_tmp_directory }}/saphostexec -install"
+  register: installagent
+  args:
+    chdir: "{{ sap_diagagent_agent_tmp_directory }}"
+  changed_when: "'Install service' in installagent.stdout"

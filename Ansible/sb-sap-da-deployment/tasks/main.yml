@@ -1,0 +1,23 @@
+---
+
+# Execute common pre installation tasks
+- import_tasks: common_pre.yml
+
+# Deploy SAPDIAGAGENT using RPM file
+- import_tasks: deploy_rpm.yml
+  when: sap_diagagent_installation_type == "rpm"
+
+# Deploy SAPDIAGAGENT using SAR file
+- import_tasks: deploy_sar.yml
+  when: sap_diagagent_installation_type == "sar"
+
+# Deploy SAPDIAGAGENT using SAP Installation Bundle
+- import_tasks: deploy_bundle.yml
+  when: sap_diagagent_installation_type == "bundle"
+
+# Configuring SSL for SAP Host Agent
+- import_tasks: config_ssl.yml
+  when: sap_diagagent_config_ssl
+
+# Execute common post installation tasks
+- import_tasks: common_post.yml

@@ -1,0 +1,14 @@
+---
+
+- name: Extract the SAPDIAGAGENT TGZ file from the Bundle
+  unarchive:
+    src: "{{ sap_diagagent_bundle_path }}/HOSTAGENT.TGZ"
+    dest: "{{ sap_diagagent_agent_tmp_directory }}"
+    remote_src: yes
+
+- name: Install SAPHOSTAGENT
+  command: "{{ sap_diagagent_agent_tmp_directory }}/global/hdb/sapdiagagent_setup/saphostexec -install"
+  register: installagent
+  args:
+    chdir: "{{ sap_diagagent_agent_tmp_directory }}/global/hdb/sapdiagagent_setup/"
+  changed_when: "'Install service' in installagent.stdout"
